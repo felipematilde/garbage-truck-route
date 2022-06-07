@@ -9,8 +9,19 @@ let map = L.map('map', {
     center: [initialLatitude, initialLongitude],
     zoom: initialZoom
 });
+
+class Localizacao {
+    constructor(latitude, longitude){
+        this.latitude = latitude;
+        this.longitude = longitude;
+        console.log(`Localização: latitude = ${this.latitude}`);
+    }
+}
+
+var localizacaoArray = []
+
     
-// This function is to call API and draw a route
+// This function calls API and draw a route
 function runDirection(start, end) {
     
     // recreating new map layer after removal
@@ -63,7 +74,7 @@ function runDirection(start, end) {
 }
 
 
-// function that runs when form submitted
+// function that runs when form is submitted
 function submitForm(event) {
     event.preventDefault();
 
@@ -94,6 +105,9 @@ function submitPinForm(event) {
 
     // run directions function
     drawMarkerAt(latitude, longitude);
+    var localizacao = new Localizacao(latitude,longitude)
+    localizacaoArray.push(localizacao)
+    console.log(`Size of this array: ${localizacaoArray.length}`)
 
     // reset form
     document.getElementById("pinForm").reset();
