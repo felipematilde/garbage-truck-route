@@ -1,126 +1,64 @@
-// define initial position
-initialLatitude = -23.206815,
-initialLongitude = -45.874893
-initialZoom = 15
+// O bizu é https://developer.mapquest.com/documentation/mapquest-js/v1.3/examples/directions-with-multiple-waypoints/
 
-// default map layer
-let map = L.map('map', {
-    layers: MQ.mapLayer(),
-    center: [initialLatitude, initialLongitude],
-    zoom: initialZoom
-});
+var lixeirasWaypoints = []
+var initialScreenLatitude = -23.206344//
+var initialScreenLongitude = -45.874893//
+var initialScreenZoom = 15
 
-class Localizacao {
-    constructor(latitude, longitude){
-        this.latitude = latitude;
-        this.longitude = longitude;
-        console.log(`Localização: latitude = ${this.latitude}`);
-    }
+var portariaLatitude = -23.206344
+var portariaLongitude = -45.881665
+
+window.onload = function() {
+    L.mapquest.key = config.MY_API_TOKEN;
+
+    var map = L.mapquest.map('map', {
+        center: [initialScreenLatitude, initialScreenLongitude],
+        layers: L.mapquest.tileLayer('map'),
+        zoom: initialScreenZoom
+    });
 }
 
-var localizacaoArray = []
+function submitEncontrar(event){
+    L.mapquest.key = config.MY_API_TOKEN;
 
-    
-// This function calls API and draw a route
-function runDirection(start, end) {
-    
-    // recreating new map layer after removal
-    map = L.map('map', {
-        layers: MQ.mapLayer(),
-        center: [initialLatitude, initialLongitude],
-        zoom: initialZoom
-    });
-    
-    var dir = MQ.routing.directions();
-    dir.route({
-        locations: [
-            start,
-            end
-        ]
-    });
-    
+    //var map = L.mapquest.map('map', {
+    //  center: [initialScreenLatitude, initialScreenLongitude],
+    //  layers: L.mapquest.tileLayer('map'),
+    //  zoom: 13
+    //});
 
-    CustomRouteLayer = MQ.Routing.RouteLayer.extend({
-        createStartMarker: (location) => {
-            var custom_icon;
-            var marker;
-            custom_icon = L.icon({
-                iconUrl: 'img/red.png',
-                iconSize: [20, 29],
-                iconAnchor: [10, 29],
-                popupAnchor: [0, -29]
-            });
-            marker = L.marker(location.latLng, {icon: custom_icon}).addTo(map);
-            return marker;
-        },
-        createEndMarker: (location) => {
-            var custom_icon;
-            var marker;
-            custom_icon = L.icon({
-                iconUrl: 'img/blue.png',
-                iconSize: [20, 29],
-                iconAnchor: [10, 29],
-                popupAnchor: [0, -29]
-            });
-            marker = L.marker(location.latLng, {icon: custom_icon}).addTo(map);
-            return marker;
-        }
+    L.mapquest.directions().route({
+      start: ''.concat(portariaLatitude,',',portariaLongitude),
+      end: ''.concat(portariaLatitude,',',portariaLongitude),
+      waypoints: lixeirasWaypoints//[ '-23.206815,-45.874893','-23.226815,-45.894893']
     });
-        
-    map.addLayer(new CustomRouteLayer({
-        directions: dir,
-        fitBounds: true
-    })); 
 }
 
-
-// function that runs when form is submitted
-function submitForm(event) {
+function submitInserir(event){
     event.preventDefault();
 
-    // delete current map layer
-    map.remove();
-
     // getting form data
-    start = document.getElementById("start").value;
-    end = document.getElementById("destination").value;
+    var latitude = parseFloat(document.getElementById("latitude").value);
+    var longitude = parseFloat(document.getElementById("longitude").value);
 
     // run directions function
-    runDirection(start, end);
-
-    // reset form
-    document.getElementById("form").reset();
-}
-
-// function that runs when pin form submitted
-function submitPinForm(event) {
-    event.preventDefault();
-
-    // delete current map layer
-    //map.remove();
-
-    // getting form data
-    latitude = parseFloat(document.getElementById("pinLat").value);
-    longitude = parseFloat(document.getElementById("pinLon").value);
-
-    // run directions function
-    drawMarkerAt(latitude, longitude);
-    var localizacao = new Localizacao(latitude,longitude)
+    //drawMarkerAt(latitude, longitude);
+    var localizacao = ''.concat(latitude,`,`,longitude)
     localizacaoArray.push(localizacao)
     console.log(`Size of this array: ${localizacaoArray.length}`)
 
     // reset form
-    document.getElementById("pinForm").reset();
+    document.getElementById("inserirForm").reset();
 }
 
 function drawMarkerAt(latitude,longitude){
-    var marker = L.marker([latitude,longitude]).addTo(map)
+//    var marker = L.marker([latitude,longitude]).addTo(map)
 }
 
-// asign the form to form variable
-const form = document.getElementById('form');
-const pinForm = document.getElementById('pinForm');
+  // asign the form to form variable
+var inserirButton = document.getElementById('inserirButton');
+var encontrarButton = document.getElementById('encontrarButton');
 
 // call the submitForm() function when submitting the form
-form.addEventListener('submit', submitForm);
-pinForm.addEventListener('submit', submitPinForm);
+inserirButton.addEventListener('click', submitInserir);
+encontrarButton.addEventListener('click', submitEncontrar);

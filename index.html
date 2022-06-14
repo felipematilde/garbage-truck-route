@@ -1,37 +1,22 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
-        <link rel="stylesheet" href="css/style.css">
-    </head>
-    <body style='border:0; margin: 0'>
-        <div id='map'></div>
-        <div class="formBlock">
-            <form id="form">
-                <input type="text" name="start" class="input" id="start" placeholder="Choose starting point" />
-                <input type="text" name="end" class="input" id="destination" placeholder="Choose starting point" />
-                <button style="display: inline;" type="submit">Get Directions</button>
-            </form>
-            <form id="pinForm">
-                <input type="text" name="pinLatitude" class="input" id="pinLat" placeholder="Choose Pin Latitude -23.210680" />
-                <input type="text" name="pinLongitude" class="input" id="pinLon" placeholder="Choose Pin Longitude -45.875015" />
-                <button style="display: inline;" type="submit">Draw Pin</button>
-            </form>
-        </div>
-        <div>
-            <table>
-                <!-- IMPORTANT, class="list" have to be at tbody -->
-                <tbody class="list">
-                  <tr>
-                    <td class="name">Jonny Stromberg</td>
-                    <td class="born">1986</td>
-                  </tr>
-                </tbody>
-              </table>
-        </div>
+  <head>
+    <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css"/>
+  </head>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
-        <script src="https://www.mapquestapi.com/sdk/leaflet/v2.2/mq-map.js?key=98qAFPVD4UfGfKBUvjEXV2dBQAOJTAwH"></script>
-        <script src="https://www.mapquestapi.com/sdk/leaflet/v2.2/mq-routing.js?key=98qAFPVD4UfGfKBUvjEXV2dBQAOJTAwH"></script>
-        <script src="app.js"></script>
-    </body>
+  <body style="border: 0; margin: 0;">
+    <div id="map" style="width: 100%; height: 530px;"></div>
+    <div class="formBlock">
+        <form id="inserirForm">
+            <input type="text" name="Latitude" class="input" id="latitude" placeholder="Latitude : -23.210680" />
+            <input type="text" name="Longitude" class="input" id="longitude" placeholder="Longitude : -45.870150" />
+            <button id="inserirButton" style="display: inline;" type="submit">Inserir lixeira</button>
+        </form>
+        <form id="encontrarForm">
+            <button id="encontrarButton" style="display: inline;" type="submit">Encontrar rota</button>
+        </form>
+    </div>
+    <script src='config.js'></script>
+    <script src="app.js"></script>
+  </body>
 </html>
