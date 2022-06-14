@@ -1,17 +1,21 @@
 // O bizu é https://developer.mapquest.com/documentation/mapquest-js/v1.3/examples/directions-with-multiple-waypoints/
 
 var lixeirasWaypoints = []
-var initialScreenLatitude = -23.206344//
-var initialScreenLongitude = -45.874893//
+var initialScreenLatitude = -23.206344
+var initialScreenLongitude = -45.874893
 var initialScreenZoom = 15
 
-var portariaLatitude = -23.206344
-var portariaLongitude = -45.881665
+var entradaPortariaLatitude = -23.206368
+var entradaPortariaLongitude = -45.881676
+var saidaPortariaLatitude = -23.206224
+var saidaPortariaLongitude = -45.881520
+
+var mapLeafLet
 
 window.onload = function() {
     L.mapquest.key = config.MY_API_TOKEN;
 
-    var map = L.mapquest.map('map', {
+    mapLeafLet = L.mapquest.map('mapId', {
         center: [initialScreenLatitude, initialScreenLongitude],
         layers: L.mapquest.tileLayer('map'),
         zoom: initialScreenZoom
@@ -19,18 +23,15 @@ window.onload = function() {
 }
 
 function submitEncontrar(event){
+    event.preventDefault();
     L.mapquest.key = config.MY_API_TOKEN;
 
-    //var map = L.mapquest.map('map', {
-    //  center: [initialScreenLatitude, initialScreenLongitude],
-    //  layers: L.mapquest.tileLayer('map'),
-    //  zoom: 13
-    //});
-
+    alert('passou por aqui');
     L.mapquest.directions().route({
-      start: ''.concat(portariaLatitude,',',portariaLongitude),
-      end: ''.concat(portariaLatitude,',',portariaLongitude),
-      waypoints: lixeirasWaypoints//[ '-23.206815,-45.874893','-23.226815,-45.894893']
+      start: ''.concat(entradaPortariaLatitude,',',entradaPortariaLongitude),
+      end: ''.concat(saidaPortariaLatitude,',',saidaPortariaLongitude),
+      waypoints: lixeirasWaypoints,
+      optimizeWaypoints: true
     });
 }
 
@@ -38,26 +39,26 @@ function submitInserir(event){
     event.preventDefault();
 
     // getting form data
-    var latitude = parseFloat(document.getElementById("latitude").value);
-    var longitude = parseFloat(document.getElementById("longitude").value);
+    var latitudeLixeira = parseFloat(document.getElementById("latitudeLixeiraId").value);
+    var longitudeLixeira = parseFloat(document.getElementById("longitudeLixeiraId").value);
 
     // run directions function
-    //drawMarkerAt(latitude, longitude);
-    var localizacao = ''.concat(latitude,`,`,longitude)
-    localizacaoArray.push(localizacao)
-    console.log(`Size of this array: ${localizacaoArray.length}`)
+    drawMarkerAt(latitudeLixeira, longitudeLixeira);
+    var lixeiraWaypoint = ''.concat(latitudeLixeira,`,`,longitudeLixeira)
+    lixeirasWaypoints.push(lixeiraWaypoint)
+    alert(`Size of this array: ${lixeirasWaypoints.length}`)
 
     // reset form
-    document.getElementById("inserirForm").reset();
+    document.getElementById("inserirFormId").reset();
 }
 
 function drawMarkerAt(latitude,longitude){
-//    var marker = L.marker([latitude,longitude]).addTo(map)
+    var marker = L.marker([latitude,longitude]).addTo(mapLeafLet)
 }
 
   // asign the form to form variable
-var inserirButton = document.getElementById('inserirButton');
-var encontrarButton = document.getElementById('encontrarButton');
+var inserirButton = document.getElementById('inserirButtonId');
+var encontrarButton = document.getElementById('encontrarButtonId');
 
 // call the submitForm() function when submitting the form
 inserirButton.addEventListener('click', submitInserir);
