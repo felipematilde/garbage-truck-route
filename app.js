@@ -10,7 +10,7 @@ var initialScreenZoom = 15
 var dctaEntranceGateLatitude = -23.206368
 var dctaEntranceGateLongitude = -45.881676
 var dctaExitGateLatitude = -23.206224
-var dctaExigGateLongitude = -45.881520
+var dctaExitGateLongitude = -45.881520
 
 var mapLeafLet
 
@@ -69,10 +69,22 @@ function findRouteForWaypoints(event){
 
     L.mapquest.directions().route({
       start: ''.concat(dctaEntranceGateLatitude,',',dctaEntranceGateLongitude),
-      end: ''.concat(dctaExitGateLatitude,',',dctaExigGateLongitude),
+      end: ''.concat(dctaExitGateLatitude,',',dctaExitGateLongitude),
       waypoints: binWaypoints,
       optimizeWaypoints: true
-    });
+    },directionsCallback)
+
+    function directionsCallback(error, response) {
+    
+      var directionsLayer = L.mapquest.directionsLayer({
+        directionsResponse: response
+      }).addTo(mapLeafLet);
+      console.log(`The distance is ${response.route.distance} miles`)
+      console.log(`The route time is ${response.route.time}s`)
+      alert(`The distance is ${response.route.distance}`)
+      alert(`The route time is ${response.route.time}`)
+      return mapLeafLet;
+    }
 }
 
 function insertBin(event){
